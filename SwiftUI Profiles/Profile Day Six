@@ -1,0 +1,55 @@
+import SwiftUI
+
+struct ContentView: View {
+    let names = ["Paul", "Ricky", "Snake", "Suli", "Lucas", "Allen"]
+    let nameToMessage: [String: String] = [
+        "Paul": "This is Paul, he loves hiking.",
+        "Ricky": "This is Ricky, he loves hiking.",
+        "Snake": "This is Snake, he loves gaming.",
+        "Suli": "This is Suli, she is an artist.",
+        "Lucas": "This is Lucas, he is a musician.",
+        "Allen": "This is Allen, he is a chef."
+    ]
+    
+    var body: some View {
+        NavigationView {
+            List {
+                ForEach(names, id: \.self) { name in
+                    if let message = nameToMessage[name] {
+                        NavigationLink(destination: DetailView(name: name, message: message)) {
+                            Text(name)
+                                .foregroundColor(.blue)
+                        }
+                    }
+                }
+            }
+            .navigationTitle("Friendface")
+        }
+        .navigationViewStyle(StackNavigationViewStyle())
+    }
+}
+
+struct DetailView: View {
+    let name: String
+    let message: String
+    @State private var showingAlert = false
+    
+    var body: some View {
+        VStack {
+            Button(action: {
+                showingAlert = true
+            }) {
+                Image(name)
+                    .resizable()
+                    .scaledToFit()
+                    .cornerRadius(25)
+                    .padding()
+            }
+            .alert(isPresented: $showingAlert) {
+                Alert(title: Text("Message"), message: Text(message), dismissButton: .default(Text("OK")))
+            }
+        }
+        .navigationTitle(name)
+    }
+}
+
