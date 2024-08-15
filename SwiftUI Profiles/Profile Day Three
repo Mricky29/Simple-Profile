@@ -1,0 +1,51 @@
+import SwiftUI
+
+
+struct ContentView: View {
+    let names = ["Paul", "Ricky", "Snake", "Suli", "Lucas", "Allen"]
+    let nameToDetails: [String: (imageName: String, description: String)] = [
+        "Paul": ("Paul", "This is Paul. He loves Hiking."),
+        "Ricky": ("Ricky", "This is Ricky. He loves coding."),
+        "Snake": ("Snake", "This is Ricky with a snake."),
+        "Suli": ("Suli", "This is Suli when he was in D.R."),
+        "Lucas": ("Lucas", "This is Lucas with his family."),
+        "Allen": ("Alen", "This is Allen, he loves modeling.")
+    ]
+    
+    var body: some View {
+        NavigationView {
+            List {
+                ForEach(names, id: \.self) { name in
+                    NavigationLink(destination: DetailView(name: name, details: nameToDetails[name]!)) {
+                        Text(name)
+                    }
+                }
+            }
+            .navigationTitle("Friendface")
+        }
+        .navigationViewStyle(StackNavigationViewStyle())
+    }
+}
+
+struct DetailView: View {
+    let name: String
+    let details: (imageName: String, description: String)
+    
+    var body: some View {
+        VStack {
+            if let uiImage = UIImage(named: details.imageName) {
+                Image(uiImage: uiImage)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 500, height: 500)
+                    .padding()
+            } else {
+                Text("Image not found")
+            }
+            Text(details.description)
+                .font(.body)
+                .padding()
+        }
+        .navigationTitle(name)
+    }
+}

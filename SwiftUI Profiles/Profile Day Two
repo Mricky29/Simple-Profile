@@ -1,0 +1,26 @@
+import SwiftUI
+
+struct ContentView: View {
+    let names = ["Paul", "Ricky", "Snake", "Suli", "Lucas", "Allen"]
+    
+    var body: some View {
+        NavigationView{
+            ScrollView{
+                ForEach(names, id: \.self){name in 
+                    Button{
+                        print("\(name) was tapped!")
+                    }label:{
+                        Image(name)
+                            .resizable()
+                            .scaledToFit()
+                            .cornerRadius(25)
+                            .padding(.horizontal)
+                    }
+                                    }
+            }
+            .navigationTitle("Friendface")
+        }
+        .navigationViewStyle(.stack)
+        
+    }
+}

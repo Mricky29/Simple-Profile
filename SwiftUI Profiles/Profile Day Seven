@@ -1,0 +1,50 @@
+import SwiftUI
+
+
+struct ContentView: View {
+    let names = ["Paul", "Ricky", "Snake", "Suli", "Lucas", "Allen"]
+    let nameToMessage: [String: String] = [
+        "Paul": "This is Paul, he loves hiking.",
+        "Ricky": "This is Ricky, he loves hiking.",
+        "Snake": "This is Snake, he loves gaming.",
+        "Suli": "This is Suli, she is an artist.",
+        "Lucas": "This is Lucas, he is a musician.",
+        "Allen": "This is Allen, he is a chef."
+    ]
+    
+    @State private var selectedName: String? = nil
+    
+    var body: some View {
+        NavigationView {
+            VStack {
+                List {
+                    ForEach(names, id: \.self) { name in
+                        Button(action: {
+                            selectedName = name
+                        }) {
+                            Text(name)
+                                .foregroundColor(.blue)
+                        }
+                    }
+                }
+                .navigationTitle("Friendface")
+                
+                if let selectedName = selectedName, let message = nameToMessage[selectedName] {
+                    VStack {
+                        Image(selectedName)
+                            .resizable()
+                            .scaledToFit()
+                            .cornerRadius(25)
+                            .padding()
+                        
+                        Text(message)
+                            .font(.body)
+                            .padding()
+                    }
+                    .transition(.opacity)
+                }
+            }
+        }
+        .navigationViewStyle(StackNavigationViewStyle())
+    }
+}
